@@ -1,66 +1,68 @@
 import React, { useState, useEffect } from 'react';
 
-const Stopwatch = () => {
-  const [seconds, setSeconds] = useState(0);
-    const [minutes, setMinutes] = useState(0);
-      const [hours, setHours] = useState(0);
-        const [isRunning, setIsRunning] = useState(false);
+const Stopwatch = ({ onLap }) => {
+  const [isRunning, setIsRunning] = useState(false); // Track whether stopwatch is running
+    const [time, setTime] = useState(0); // Time in seconds
+      const [intervalId, setIntervalId] = useState(null); // Interval ID to clear it later
 
-          useEffect(() => {
-              let interval;
+        // Convert time in seconds to hh:mm:ss format
+          const formatTime = (timeInSeconds) => {
+              const hours = Math.floor(timeInSeconds / 3600);
+                  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+                      const seconds = timeInSeconds % 60;
+                          return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                            };
 
-                  if (isRunning) {
-                        interval = setInterval(() => {
-                                setSeconds(prevSeconds => {
-                                          if (prevSeconds === 59) {
-                                                      setMinutes(prevMinutes => {
-                                                                    if (prevMinutes === 59) {
-                                                                                    setHours(prevHours => prevHours + 1);
-                                                                                                    return 0;
-                                                                                                                  }
-                                                                                                                                return prevMinutes + 1;
-                                                                                                                                            });
-                                                                                                                                                        return 0;
-                                                                                                                                                                  }
-                                                                                                                                                                            return prevSeconds + 1;
-                                                                                                                                                                                    });
-                                                                                                                                                                                          }, 1000);
-                                                                                                                                                                                              } else {
-                                                                                                                                                                                                    clearInterval(interval);
-                                                                                                                                                                                                        }
+                              // Start/Stop the stopwatch
+                                const toggleStopwatch = () => {
+                                    if (isRunning) {
+                                          clearInterval(intervalId);
+                                                setIsRunning(false);
+                                                    } else {
+                                                          const id = setInterval(() => {
+                                                                  setTime((prevTime) => prevTime + 1); // Increment time by 1 second
+                                                                        }, 1000);
+                                                                              setIntervalId(id);
+                                                                                    setIsRunning(true);
+                                                                                        }
+                                                                                          };
 
-                                                                                                                                                                                                            return () => clearInterval(interval); // Clean up interval on component unmount
-                                                                                                                                                                                                              }, [isRunning]);
+                                                                                            // Stop and reset the stopwatch
+                                                                                              const resetStopwatch = () => {
+                                                                                                  setTime(0);
+                                                                                                      if (isRunning) {
+                                                                                                            clearInterval(intervalId);
+                                                                                                                  setIsRunning(false);
+                                                                                                                      }
+                                                                                                                        };
 
-                                                                                                                                                                                                                const handleStartStop = () => {
-                                                                                                                                                                                                                    setIsRunning(prevState => !prevState);
-                                                                                                                                                                                                                      };
+                                                                                                                          // Add lap (send the current time to the parent component)
+                                                                                                                            const addLap = () => {
+                                                                                                                                if (isRunning) {
+                                                                                                                                      onLap(formatTime(time)); // Pass formatted time to the parent component
+                                                                                                                                          }
+                                                                                                                                            };
 
-                                                                                                                                                                                                                        const handleReset = () => {
-                                                                                                                                                                                                                            setIsRunning(false);
-                                                                                                                                                                                                                                setSeconds(0);
-                                                                                                                                                                                                                                    setMinutes(0);
-                                                                                                                                                                                                                                        setHours(0);
-                                                                                                                                                                                                                                          };
+                                                                                                                                              useEffect(() => {
+                                                                                                                                                  // Cleanup interval on component unmount
+                                                                                                                                                      return () => {
+                                                                                                                                                            if (intervalId) {
+                                                                                                                                                                    clearInterval(intervalId);
+                                                                                                                                                                          }
+                                                                                                                                                                              };
+                                                                                                                                                                                }, [intervalId]);
 
-                                                                                                                                                                                                                                            return (
-                                                                                                                                                                                                                                                <div>
-                                                                                                                                                                                                                                                      <div>
-                                                                                                                                                                                                                                                              <h1>
-                                                                                                                                                                                                                                                                        {String(hours).padStart(2, '0')}:
-                                                                                                                                                                                                                                                                                  {String(minutes).padStart(2, '0')}:
-                                                                                                                                                                                                                                                                                            {String(seconds).padStart(2, '0')}
-                                                                                                                                                                                                                                                                                                    </h1>
-                                                                                                                                                                                                                                                                                                          </div>
-                                                                                                                                                                                                                                                                                                                <div>
-                                                                                                                                                                                                                                                                                                                        <button onClick={handleStartStop}>
-                                                                                                                                                                                                                                                                                                                                  {isRunning ? 'Stop' : 'Start'}
-                                                                                                                                                                                                                                                                                                                                          </button>
-                                                                                                                                                                                                                                                                                                                                                  <button onClick={handleReset}>Reset</button>
-                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                              );
-                                                                                                                                                                                                                                                                                                                                                              };
+                                                                                                                                                                                  return (
+                                                                                                                                                                                      <div>
+                                                                                                                                                                                            <h2>Stopwatch</h2>
+                                                                                                                                                                                                  <div className='time' >{formatTime(time)}</div>
+                                                                                                                                                                                                        <button onClick={toggleStopwatch}>{isRunning ? 'Stop' : 'Start'}</button>
+                                                                                                                                                                                                              <button onClick={resetStopwatch}>Reset</button>
+                                                                                                                                                                                                                    <button onClick={addLap} disabled={!isRunning}>
+                                                                                                                                                                                                                            Add Lap
+                                                                                                                                                                                                                                  </button>
+                                                                                                                                                                                                                                      </div>
+                                                                                                                                                                                                                                        );
+                                                                                                                                                                                                                                        };
 
-                                                                                                                                                                                                                                                                                                                                                              export default Stopwatch;
-                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                        export default Stopwatch;

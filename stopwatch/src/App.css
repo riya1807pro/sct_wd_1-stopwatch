@@ -1,0 +1,149 @@
+/* Basic Reset */
+* {
+  margin: 0;
+    padding: 0;
+      box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Arial', sans-serif;
+          background-color: #f4f4f9;
+            color: #333;
+              display: flex;
+                justify-content: center;
+                  align-items: center;
+                    height: 100vh;
+                      flex-direction: column;
+                      }
+
+                      /* Main Container */
+                      h1, h2 {
+                        text-align: center;
+                          margin-bottom: 30px;
+                          }
+
+                          /* Stopwatch Section */
+                          .stopwatch-container {
+                            background: #fff;
+                              border-radius: 12px;
+                                padding: 20px;
+                                  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                                    width: 300px;
+                                      text-align: center;
+                                      }
+
+                                      .stopwatch-container h2 {
+                                        font-size: 24px;
+                                          margin-bottom: 10px;
+                                          }
+
+                                          .stopwatch-container div {
+                                            font-size: 40px;
+                                              font-weight: bold;
+                                                margin-bottom: 20px;
+                                                }
+.time{
+    font-size:40px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-self: center;
+    margin-left: 30px;
+    font-family:monospace;
+}
+                                                button {
+                                                  background-color: #4caf50;
+                                                    color: white;
+                                                      border: none;
+                                                        padding: 12px 20px;
+                                                          margin: 5px;
+                                                            font-size: 16px;
+                                                              cursor: pointer;
+                                                                border-radius: 8px;
+                                                                  transition: background-color 0.3s ease, transform 0.2s ease;
+                                                                  }
+
+                                                                  button:disabled {
+                                                                    background-color: #ddd;
+                                                                      cursor: not-allowed;
+                                                                      }
+
+                                                                      button:hover:not(:disabled) {
+                                                                        background-color: #45a049;
+                                                                          transform: scale(1.1);
+                                                                          }
+
+                                                                          button:active {
+                                                                            transform: scale(0.95);
+                                                                            }
+
+                                                                            button.reset {
+                                                                              background-color: #f44336;
+                                                                              }
+
+                                                                              button.reset:hover {
+                                                                                background-color: #e53935;
+                                                                                }
+
+                                                                                /* Lap Manager Section */
+                                                                                .lap-list {
+                                                                                  background: #fff;
+                                                                                    border-radius: 12px;
+                                                                                      padding: 20px;
+                                                                                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                                                                                          width: 300px;
+                                                                                            margin-top: 15px;
+                                                                                            }
+
+                                                                                            .lap-list ul {
+                                                                                              list-style-type: none;
+                                                                                                padding: 0;
+                                                                                                }
+
+                                                                                                .lap-list li {
+                                                                                                  display: flex;
+                                                                                                    justify-content: space-between;
+                                                                                                      margin-bottom: 10px;
+                                                                                                        align-items: center;
+                                                                                                        }
+
+                                                                                                        .lap-list li span {
+                                                                                                          font-size: 18px;
+                                                                                                            font-weight: 500;
+                                                                                                              color: #333;
+                                                                                                              }
+
+                                                                                                              .lap-list button {
+                                                                                                                background-color: #f44336;
+                                                                                                                  color: white;
+                                                                                                                    border: none;
+                                                                                                                      padding: 8px 15px;
+                                                                                                                        font-size: 14px;
+                                                                                                                          cursor: pointer;
+                                                                                                                            border-radius: 6px;
+                                                                                                                              transition: background-color 0.3s ease, transform 0.2s ease;
+                                                                                                                              }
+
+                                                                                                                              .lap-list button:hover {
+                                                                                                                                background-color: #e53935;
+                                                                                                                                  transform: scale(1.1);
+                                                                                                                                  }
+
+                                                                                                                                  .lap-list button:active {
+                                                                                                                                    transform: scale(0.95);
+                                                                                                                                    }
+
+                                                                                                                                    /* Empty State Message */
+                                                                                                                                    .lap-list p {
+                                                                                                                                      font-size: 16px;
+                                                                                                                                        text-align: center;
+                                                                                                                                          color: #777;
+                                                                                                                                            font-style: italic;
+                                                                                                                                            }
+
+                                                                                                                                            /* Responsive Design */
+                                                                                                                                            @media (max-width: 600px) {
+                                                                                                                                              .stopwatch-container, .lap-list {
+                                                                                                                                                  width: 90%;
+                                                                                                                                                    }
+                                                                                                                                                    }

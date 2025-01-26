@@ -1,7 +1,5 @@
-
-import './App.css';
-import Stopwatch from './Function.jsx/Time';
-//import Time from './Function.jsx/Time';
+import "./App.css"
+import LapManager from './Function.jsx/Laps';
 
 function App() {
   return (
@@ -9,10 +7,9 @@ function App() {
       <header className='App-header'>
         <h1>StopWatch</h1>
       </header>
-      <div className='tine'>
-        <Stopwatch/>
+<hr/>
+        <LapManager/>
       </div>
-    </div>
   );
 }
 
